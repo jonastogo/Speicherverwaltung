@@ -1,9 +1,3 @@
-/*
- * main.c
- *
- *  Created on: 16.11.2016
- *      Author: Jonas-Lampe
- */
 
 #include "../include/speicherverwaltung.h"
 #include <stdio.h>
