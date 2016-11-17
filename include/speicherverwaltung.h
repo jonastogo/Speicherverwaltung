@@ -1,9 +1,3 @@
-/*
- * speicherwaltung.h
- *
- *  Created on: 16.11.2016
- *      Author: Jonas-Lampe
- */
 
 #ifndef INCLUDE_SPEICHERVERWALTUNG_H_
 #define INCLUDE_SPEICHERVERWALTUNG_H_
