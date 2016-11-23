@@ -2,7 +2,7 @@
  * speicherverwaltung.c
  *
  *  Created on: 16.11.2016
- *      Author: Jonas-Lampe
+ *      Author: Jonas-Lampe, Alexander-Sochart
  */
 
 
