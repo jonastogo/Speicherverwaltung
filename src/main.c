@@ -3,14 +3,18 @@
 #include <stdio.h>
 
 int main(){
-
- int *p=(int)cm_malloc(100*sizeof(int));
- char *q=(char)cm_malloc(250*sizeof(char));
- int *r=(int)cm_malloc(1000*sizeof(int));
- cm_free(p);
- char *w=(char)cm_malloc(700);
- cm_free(r);
- int *k=(int)cm_malloc(500*sizeof(int));
- printf("Allocation and deallocation is done successfully!");
+	printf("\n\n");
+	char *p=(char)cm_malloc(1700*sizeof(char));
+	printf("Adress: %i \n", p);
+	char *q=(char)cm_malloc(1600*sizeof(char));
+	printf("Adress: %i \n", q);
+	char *r=(char)cm_malloc(1000*sizeof(char));
+	printf("Adress: %i \n", r);
+	char *t=(char)cm_malloc(2000*sizeof(char));
+	printf("Adress: %i \n", t);
+	char *k=(char)cm_malloc(2100*sizeof(char));
+	printf("Adress: %i \n", k);
+	cm_free(r);
+	printf("Allocation and deallocation is done successfully!");
 
 }
