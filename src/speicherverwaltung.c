@@ -14,9 +14,9 @@ char mempool[MEM_POOL_SIZE];
 struct memblock *freeman=(void*)mempool;
 
 void init_heap(void){
-	printf("Mempool: %i", (void*)mempool);
+	printf(" Mempool: %i\n", (void*)mempool);
 	freeman->size=MEM_POOL_SIZE-sizeof(struct memblock);
-	freeman->free=MAGIC_INT;
+	freeman->free=0;
 	freeman->next=NULL;
 	struct memblock *curr = freeman;
 	struct memblock *first;
@@ -40,51 +40,53 @@ void init_heap(void){
 	split(curr, 1400);
 	curr = curr->next;
 	freeman = first;
-	printf("%zu -> ", first->size);
+	printf(" %zu -> ", first->size);
 	while(first->next!=NULL){
 		first = first->next;
 		printf("%zu -> ", first->size);
 	}
-	printf("Memory initialized\n\n");
+	printf("\n Memory initialized\n\n\n\n");
 }
 
-void *cm_malloc(size_t size){
+struct memblock *cm_malloc(size_t size){
 	struct memblock *curr,*prev = NULL, *list;
 	void *result;
 	if(!(freeman->size)){
 		init_heap();
 	}
 	list = freeman;
-	printf("%zu -> ", list->size);
+	printf("TO DO: %zu\n", size);
+	printf(" %zu -> ", list->size);
 	while(list->next!=NULL){
 		list = list->next;
-		printf("%zu -> ", list->size);
+		printf(" %zu -> ", list->size);
 	}
 	printf("\n");
-	printf("%zu\n", size);
+	printf(" CHECK BLOCKS!\n");
 	curr=freeman;
 	while(curr->size<size && curr->next!=NULL){
 		prev=curr;
+		printf(" %zu <-> %zu  -> ", size, curr->size);
+		printf(" block checked\n");
 		curr=curr->next;
-		printf(" %zu <-> %zu\n", size, curr->size);
-		printf(" One block checked\n");
 	}
+	printf(" %zu <-> %zu  -> ", size, curr->size);
+	printf(" block checked\n");
 	if((curr->size)>=size){
 		if(prev == NULL){
-			printf("prev == NULL\n");
 			freeman = curr->next;
 		}
 		else{
-			printf("prev != NULL\n");
 			prev->next = curr->next;
 		}
-		result=(void*)(++curr);
-		printf(" Exact fitting block allocated\n\n");
+		curr->free=MAGIC_INT;
+		result=curr;
+		printf(" Exact fitting block allocated on: ");
 		return result;
 	}
 	else{
 		result=NULL;
-	  	printf(" Sorry. No sufficient memory to allocate\n\n");
+	  	printf(" Sorry. No sufficient memory to allocate on: ");
 	  	return result;
 	}
 }
@@ -93,31 +95,32 @@ void *cm_malloc(size_t size){
 void split(struct memblock *fitting_slot,size_t size){
 	struct memblock *new = (void*)((void*)fitting_slot+size+sizeof(struct memblock));
 	new->size=(fitting_slot->size)-size-sizeof(struct memblock);
-	new->free=MAGIC_INT;
+	new->free=0;
 	new->next=fitting_slot->next;
 	fitting_slot->size=size;
-	fitting_slot->free=MAGIC_INT;
+	fitting_slot->free=0;
 	fitting_slot->next=new;
 }
 
-void cm_free(void *ptr){
+void cm_free(struct memblock *ptr){
+	printf("FREEING \n");
 	struct memblock *list = freeman;
-	printf("%i <= %i\n", (void*)mempool, ptr);
-	printf("%i\n", mempool);
-	ptr = ((char*)mempool) + ptr;
-	if((void*)mempool<=ptr && ptr<=(void*)(mempool + 16384)){
-		struct memblock *curr=ptr;
-		--curr;
-		curr->free=MAGIC_INT;
-		while(!list->next){
+	if(mempool <= ptr && ptr <= mempool+16384){
+		struct memblock *curr = ptr;
+		curr->free = 0;
+
+		printf(" %zu -> ", list->size);
+		while(list->next!=NULL){
 			list = list->next;
+			printf(" %zu -> ", list->size);
 		}
+		printf("\n");
+
 		list->next = curr;
-		printf("Memoryarea was cleared!\n");
-	}
-	else {
-		printf("Please provide a valid pointer allocated by cm_malloc\n");
-	}
+		curr->next = NULL;
+		printf(" Memoryarea was cleared!\n\n\n\n");
+	}else
+		printf(" Clearing failed!\n\n\n\n");
 }
 
 void merge(){
