@@ -6,12 +6,13 @@
 #include <stddef.h>
 
 #define MEM_POOL_SIZE 16384
-static const int MAGIC_INT = 0xacdcacdc;
+#define MAGIC_INT 0xacdcacdc
 
+
+typedef unsigned char byte;
 
 struct memblock{
 	size_t size;
-	int free;
 	struct memblock *next;
 }memblock;
 
