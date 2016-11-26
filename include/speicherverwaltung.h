@@ -19,8 +19,9 @@ struct memblock{
 
 void init_heap();
 void split(struct memblock *fitting_slot, size_t size);
-struct memblock *cm_malloc(size_t size);
+void *cm_malloc(size_t size);
+void *cm_malloc_split(size_t size);
 void merge();
-void cm_free(struct memblock *ptr);
+void cm_free(void *ptr);
 
 #endif /* INCLUDE_SPEICHERVERWALTUNG_H_ */
