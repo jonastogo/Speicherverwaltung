@@ -1,5 +1,6 @@
 
 #include "../include/speicherverwaltung.h"
+#include "../include/display.h"
 #include <stdio.h>
 
 int main(){
@@ -16,10 +17,5 @@ int main(){
 	struct memblock *k=cm_malloc(2100);
 	printf(" Adress: %i \n\n\n\n", k);
 	printf(" Allocation and deallocation is done successfully!\n\n");
-	int *array = absolute();
-	int i;
-	for(i = 0;i <10; i++){
-		printf("%i\n", array[i]);
-	}
-
+	show_absolute();
 }

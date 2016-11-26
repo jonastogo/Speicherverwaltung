@@ -12,7 +12,8 @@
 #include <wiringPi.h>
 
 void init_led();
-void set_led(leds led);
+void settingLed();
 void transfer();
+void show_absolute();
 
 #endif /* INCLUDE_DISPLAY_H_ */
