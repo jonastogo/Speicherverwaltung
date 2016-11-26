@@ -15,6 +15,7 @@ struct memblock *freeman=(void*)mempool;
 
 void init_heap(void){
 	printf(" Mempool: %i\n", (void*)mempool);
+	printf(" Mempool PAddr: %i\n", &mempool);
 	freeman->size=MEM_POOL_SIZE-sizeof(struct memblock);
 	freeman->next=NULL;
 	struct memblock *curr = freeman;
@@ -142,5 +143,26 @@ void cm_free(void *ptr){
 	}
 	else
 		printf("Please provide a valid pointer allocated by MyMalloc\n");
+}
+
+int *absolute(void){
+	unsigned long *mempoolAddr = &mempool;
+	int i;
+	unsigned int *full = (unsigned int*) malloc(sizeof(unsigned int)*10);
+	for(i = 0; i<10; i++){
+		memblock_t *start = mempoolAddr;
+
+		if(start->next == MAGIC_INT){
+			full[i] = 1;
+		}
+		else {
+			full[i] = 0;
+		}
+
+		unsigned long pointer = mempoolAddr;
+		unsigned long pointer_all = pointer + sizeof(memblock_t) + start->size;
+		mempoolAddr = pointer_all;
+	}
+	return full;
 }
 
